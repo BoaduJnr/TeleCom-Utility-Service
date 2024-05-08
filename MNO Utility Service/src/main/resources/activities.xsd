@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://com.miniproject.mnoutilityservice.api/activities"
+           targetNamespace="http://com.miniproject.mnoutilityservice.api/activities"
+           elementFormDefault="qualified">
+    <xs:simpleType name="NonNegativeAmount">
+        <xs:annotation>
+            <xs:documentation>Amount must be greater than 0</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="accountInfo">
+        <xs:sequence>
+            <xs:element name="accountId" type="xs:long"/>
+            <xs:element name="balance" type="xs:long"/>
+            <xs:element name="userId" type="xs:long"/>
+            <xs:element name="contact" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="transactionInfo">
+        <xs:sequence>
+            <xs:element name="transactionId" type="xs:long"/>
+            <xs:element name="accountId" type="xs:string"/>
+            <xs:element name="date" type="xs:dateTime"/>
+            <xs:element name="received" type="xs:long"/>
+            <xs:element name="transferred" type="xs:long"/>
+            <xs:element name="balance" type="xs:long"/>
+            <xs:element name="contact" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="serviceStatus">
+        <xs:sequence>
+            <xs:element name="status" type="xs:string"/>
+            <xs:element name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="purchaseAirtimeRequest">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="userId" type="xs:long"/>
+            <xs:element name="amount" type="tns:NonNegativeAmount"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="purchaseAirtimeResponse">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="airtimeTransferRequest">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="userId" type="xs:long"/>
+            <xs:element name="amount" type="tns:NonNegativeAmount"/>
+            <xs:element name="contact" type="xs:string"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="airtimeTransferResponse">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="balanceCheckingRequest">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="userId" type="xs:long"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="balanceCheckingResponse">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="accountInfo" type="tns:accountInfo"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="bulkAirtimePurchaseRequest">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="userId" type="xs:long"/>
+            <xs:element name="amount" type="tns:NonNegativeAmount"/>
+            <xs:element name="contacts" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="bulkAirtimePurchaseResponse">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transactionHistoryRequest">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="userId" type="xs:long"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transactionHistoryResponse">
+        <xs:complexType>
+        <xs:sequence>
+            <xs:element name="transactionHistory" type="tns:transactionInfo" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
